@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useRef } from 'react';
 
 let scriptLoaded = false;
 
-function FluidWidget({ open, transaction, bonuses,  onInfo, onCommand, onError }) {
+function FluidWrapper({ open, transaction, bonuses,  onInfo, onCommand, onError }) {
 	const ref = useRef(null);
 
 	useEffect(() => {
@@ -63,4 +63,4 @@ function FluidWidget({ open, transaction, bonuses,  onInfo, onCommand, onError }
 	);
 }
 
-export default FluidWidget;
+export default FluidWrapper;

@@ -1,5 +1,5 @@
 import './App.css'
-import FluidWrapper from './FluidWidget.jsx';
+import FluidWrapper from './FluidWrapper.jsx';
 import { useState } from 'react';
 import bonuses from './bonuses.js';
 
