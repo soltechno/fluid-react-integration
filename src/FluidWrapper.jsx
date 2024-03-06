@@ -5,9 +5,9 @@ let scriptLoaded = false;
 
 function FluidWrapper({ open, transaction, bonuses,  onInfo, onCommand, onError }) {
 	const ref = useRef(null);
+	let script;
 
 	useEffect(() => {
-		let script;
 		if (window && document && !scriptLoaded) {
 			script = document.createElement('script');
 			script.src = config.widgetUrl;
