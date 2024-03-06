@@ -8,6 +8,8 @@ function App() {
 	const [transaction, setTransaction] = useState('deposit');
 	const [numberOfBonuses, setNumberOfBonuses] = useState(bonuses.length);
 
+	const [loggedIn, setLoggedIn] = useState(true);
+
 	function deposit() {
 		setTransaction('deposit');
 		setOpen(true);
@@ -52,39 +54,45 @@ function App() {
 	return (
 		<>
 			<h1>
-				<img src="/logo-mark-light.png" alt="Fluid" width={48} style={{ marginRight: '1rem' }} />
+				<img src="/logo-mark-light.png" alt="Fluid" width={48} style={{ marginRight: '1rem' }}/>
 				Fluid
 			</h1>
 
 			<div style={{ marginBottom: '1rem' }}>
-				<button onClick={ deposit }>Deposit
+				<button onClick={() => setLoggedIn(!loggedIn)}>
+					{ loggedIn ? 'Log out' : 'Log in' }
+				</button>
+			</div>
+
+			<div style={{ marginBottom: '1rem' }}>
+				<button onClick={deposit}>Deposit
 				</button>
 			</div>
 			<div style={{ marginBottom: '1rem' }}>
-				<button onClick={ withdraw }>
+				<button onClick={withdraw}>
 					Withdrawal
 				</button>
 			</div>
 			<div style={{ marginBottom: '1rem' }}>
-				<button onClick={ quickDeposit }>
+				<button onClick={quickDeposit}>
 					Quick Deposit
 				</button>
 			</div>
 
 			<div style={{ marginBottom: '1rem' }}>
-				<button onClick={ changeNumberOfBonuses }>
+				<button onClick={changeNumberOfBonuses}>
 					Change bonuses
 				</button>
 			</div>
 
-			<FluidWrapper
+			{loggedIn && <FluidWrapper
 				open={open}
 				transaction={transaction}
 				bonuses={bonuses.slice(0, numberOfBonuses)}
-				onInfo={ onInfo }
-				onCommand={ onCommand }
-				onError={ onError }
-			/>
+				onInfo={onInfo}
+				onCommand={onCommand}
+				onError={onError}
+			/>}
 		</>
 	)
 }
