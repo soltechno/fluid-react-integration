@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef } from 'react';
+import config from './config';
 
 let scriptLoaded = false;
 
@@ -9,7 +10,7 @@ function FluidWrapper({ open, transaction, bonuses,  onInfo, onCommand, onError 
 		let script;
 		if (window && document && !scriptLoaded) {
 			script = document.createElement('script');
-			script.src = 'https://get.fluidpayments.io/index.js';
+			script.src = config.widgetUrl;
 			script.async = true;
 			script.onload = () => {
 				console.log('Fluid script loaded');
