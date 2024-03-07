@@ -1,15 +1,16 @@
 import { useEffect, useLayoutEffect, useRef } from 'react';
+import config from './config';
 
 let scriptLoaded = false;
 
 function FluidWrapper({ open, transaction, bonuses,  onInfo, onCommand, onError }) {
 	const ref = useRef(null);
+	let script;
 
 	useEffect(() => {
-		let script;
 		if (window && document && !scriptLoaded) {
 			script = document.createElement('script');
-			script.src = 'https://get.fluidpayments.io/index.js';
+			script.src = config.widgetUrl;
 			script.async = true;
 			script.onload = () => {
 				console.log('Fluid script loaded');
@@ -46,10 +47,10 @@ function FluidWrapper({ open, transaction, bonuses,  onInfo, onCommand, onError 
 			id="fluid-widget"
 			operator-id="10000001"
 			user-id="10001"
-			session-id=""
+			session-id="a-session-id"
+			user-agent="user-agent"
 			locale="en"
 			currency="EUR"
-			user-data=""
 			transaction={ transaction }
 			open={ open }
 			balance="1000"
@@ -57,6 +58,7 @@ function FluidWrapper({ open, transaction, bonuses,  onInfo, onCommand, onError 
 			mode="wave"
 			selected-bonus=""
 			bonuses={ JSON.stringify(bonuses || []) }
+			user-data={ JSON.stringify({}) }
 			deposit-limit=""
 			success-cta-link="">
 		</fluid-widget>
