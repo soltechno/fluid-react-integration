@@ -10,6 +10,11 @@ function App() {
 
 	const [loggedIn, setLoggedIn] = useState(true);
 
+	function wallet() {
+		setTransaction(undefined);
+		setOpen(true);
+	}
+
 	function deposit() {
 		setTransaction('deposit');
 		setOpen(true);
@@ -65,7 +70,13 @@ function App() {
 			</div>
 
 			<div style={{ marginBottom: '1rem' }}>
-				<button onClick={deposit}>Deposit
+				<button onClick={wallet}>
+					Wallet
+				</button>
+			</div>
+			<div style={{ marginBottom: '1rem' }}>
+				<button onClick={deposit}>
+					Deposit
 				</button>
 			</div>
 			<div style={{ marginBottom: '1rem' }}>
