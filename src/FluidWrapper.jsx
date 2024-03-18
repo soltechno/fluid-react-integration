@@ -45,7 +45,7 @@ function FluidWrapper({ open, transaction, bonuses,  onInfo, onCommand, onError 
 		<fluid-widget
 			ref={ref}
 			id="fluid-widget"
-			operator-id="10000001"
+			operator-id={ config.operatorId }
 			user-id="10001"
 			session-id="a-session-id"
 			locale="en"
