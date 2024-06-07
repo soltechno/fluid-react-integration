@@ -37,7 +37,7 @@ function App() {
 	function onCommand(event) {
 		console.info(`%cFluid COMMAND: ${event.detail}`, 'color: lightgreen', event);
 
-		if (event.detail === 'close') {
+		if (event.detail.message === 'close') {
 			close();
 		}
 	}
