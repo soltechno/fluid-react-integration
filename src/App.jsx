@@ -4,11 +4,16 @@ import { useState } from 'react';
 import bonuses from './bonuses.js';
 
 function App() {
-	const [open, setOpen] = useState(false);
+	const [open, setOpen] = useState(true);
 	const [transaction, setTransaction] = useState('deposit');
 	const [numberOfBonuses, setNumberOfBonuses] = useState(bonuses.length);
 
 	const [loggedIn, setLoggedIn] = useState(true);
+
+	function login(value) {
+		setLoggedIn(value);
+		setOpen(value);
+	}
 
 	function wallet() {
 		setTransaction(undefined);
@@ -64,7 +69,7 @@ function App() {
 			</h1>
 
 			<div style={{ marginBottom: '1rem' }}>
-				<button onClick={() => setLoggedIn(!loggedIn)}>
+				<button onClick={() => login(!loggedIn)}>
 					{ loggedIn ? 'Log out' : 'Log in' }
 				</button>
 			</div>
