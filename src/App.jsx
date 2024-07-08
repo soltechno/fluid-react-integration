@@ -1,111 +1,151 @@
-import './App.css'
-import FluidWrapper from './FluidWrapper.jsx';
-import { useState } from 'react';
-import bonuses from './bonuses.js';
+import { useEffect, useState } from "react";
+import "./App.css";
 
-function App() {
+export default function App() {
+    const [scriptLoaded, setScriptLoaded] = useState(false);
 	const [open, setOpen] = useState(false);
 	const [transaction, setTransaction] = useState('deposit');
-	const [numberOfBonuses, setNumberOfBonuses] = useState(bonuses.length);
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [bonuses, setBonuses] = useState([]);
+    const [balance, setBalance] = useState(1000);
 
-	const [loggedIn, setLoggedIn] = useState(true);
+    const bonusesData = [
+        {
+            code: "DepositBonus",
+            title: "Different Bonus (Reactive)",
+            description: "100% up to 200€ + 10 Mega Spins",
+            maxBonus: "200",
+            maxBonusPercentage: "150",
+            minDeposit: "10",
+            termsAndConditions: "Welcome Offer Terms And Conditions 1...",
+        },
+    ];
 
-	function wallet() {
-		setTransaction(undefined);
-		setOpen(true);
-	}
+    const init = async () => {
+        window.fluid.init({
+            operatorId: 10000001,
+            userId: "user1",
+            locale: "en",
+            currencyCode: "EUR",
+            countryCode: "IRL",
+            sessionId: "-3nhr1rf7dhql9rqola9s9"
+        });
 
-	function deposit() {
-		setTransaction('deposit');
-		setOpen(true);
-	}
+    };
 
-	function withdraw() {
-		setTransaction('withdrawal');
-		setOpen(true);
-	}
+    useEffect(() => {
 
-	function quickDeposit() {
-		setTransaction('quick-deposit');
-		setOpen(true);
-	}
+        console.log('useEffect');
+        let script;
 
-	function close() {
-		setOpen(false);
-	}
+        if (window && document && !scriptLoaded) {
+            script = document.createElement("script");
+            script.src = "https://get.fluidpayments.io/index.js";
+            // script.src = "https://fluid-git-7297-fluidpayments.vercel.app/index.js";
+            script.id = "fluid-script";
+            script.async = true;
+            script.onload = () => {
+                setScriptLoaded(true);
+            };
+            document.head.appendChild(script);
+        }
 
-	function onCommand(event) {
-		console.info(`%cFluid COMMAND: ${event.detail}`, 'color: lightgreen', event);
+        return () => {
+            if (script) {
+                script.remove();
+            }
+        };
+    }, []);
 
-		if (event.detail.message === 'close') {
-			close();
-		}
-	}
+    function deposit() {
+        setTransaction('deposit');
+        setOpen(true);
+    }
 
-	function onInfo(event) {
-		console.info(`%cFluid INFO: ${event.detail}`, 'color: cornflowerblue', event);
-	}
+    function withdraw() {
+        setTransaction('withdrawal');
+        setOpen(true);
+    }
 
-	function onError(event) {
-		console.error(`Fluid ERROR: ${event.detail}`, event);
-	}
+    function quickDeposit() {
+        setTransaction('quick-deposit');
+        setOpen(true);
+    }
 
-	function changeNumberOfBonuses() {
-		const newNumberOfBonuses = numberOfBonuses - 1 < 0 ? 3 : numberOfBonuses - 1;
-		setNumberOfBonuses(newNumberOfBonuses);
-		console.log('Number of bonuses set to', newNumberOfBonuses);
-	}
+    function addBonuses() {
+        setTimeout(() => {
+            setBonuses(JSON.stringify(bonusesData));
+            setBalance(1200);
+        }, 5000);
+    }
 
-	return (
-		<>
-			<h1>
-				<img src="/logo-mark-light.png" alt="Fluid" width={48} style={{ marginRight: '1rem' }}/>
-				Fluid
-			</h1>
+    function removeBonuses() {
+        setBonuses(JSON.stringify([]));
+    }
 
-			<div style={{ marginBottom: '1rem' }}>
-				<button onClick={() => setLoggedIn(!loggedIn)}>
-					{ loggedIn ? 'Log out' : 'Log in' }
-				</button>
-			</div>
+    return (
+        <div className="App">
 
-			<div style={{ marginBottom: '1rem' }}>
-				<button onClick={wallet}>
-					Wallet
-				</button>
-			</div>
-			<div style={{ marginBottom: '1rem' }}>
-				<button onClick={deposit}>
-					Deposit
-				</button>
-			</div>
-			<div style={{ marginBottom: '1rem' }}>
-				<button onClick={withdraw}>
-					Withdrawal
-				</button>
-			</div>
-			<div style={{ marginBottom: '1rem' }}>
-				<button onClick={quickDeposit}>
-					Quick Deposit
-				</button>
-			</div>
+        <h1>
+            <img src="/logo-mark-light.png" alt="Fluid" width={48} style={{ marginRight: '1rem' }}/>
+            Fluid React Integration
+        </h1>
 
-			<div style={{ marginBottom: '1rem' }}>
-				<button onClick={changeNumberOfBonuses}>
-					Change bonuses
-				</button>
-			</div>
+        <div style={{ marginBottom: '1rem' }}>
+            <button onClick={init}>
+                window.fluid.init(...
+            </button>
+        </div>
 
-			{loggedIn && <FluidWrapper
-				open={open}
-				transaction={transaction}
-				bonuses={bonuses.slice(0, numberOfBonuses)}
-				onInfo={onInfo}
-				onCommand={onCommand}
-				onError={onError}
-			/>}
-		</>
-	)
+        <div style={{ marginBottom: '1rem' }}>
+            <button onClick={() => setLoggedIn(!loggedIn)}>
+                { loggedIn ? 'Log out' : 'Log in' }
+            </button>
+        </div>
+        
+        <div style={{ marginBottom: '1rem' }}>
+            <button onClick={deposit}>
+                Deposit
+            </button>
+        </div>
+        
+        <div style={{ marginBottom: '1rem' }}>
+            <button onClick={withdraw}>
+                Withdrawal
+            </button>
+        </div>
+        
+        <div style={{ marginBottom: '1rem' }}>
+            <button onClick={quickDeposit}>
+                Quick Deposit
+            </button>
+        </div>
+
+        <div style={{ marginBottom: '1rem' }}>
+            <button onClick={addBonuses}>
+                Add bonuses
+            </button>
+        </div>
+
+        <div style={{ marginBottom: '1rem' }}>
+            <button onClick={removeBonuses}>
+                Remove bonuses
+            </button>
+        </div>
+
+        <div className="wrapper">
+            wrapper
+            {loggedIn && (
+                <fluid-widget
+                    id="fluid-widget"
+                    transaction={transaction}
+                    open={open}
+                    balance={balance}
+                    withdrawable-balance="900"
+                    bonuses={bonuses}
+                ></fluid-widget>
+            )}
+            </div>
+        </div>
+    );
 }
-
-export default App
