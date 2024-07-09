@@ -40,8 +40,8 @@ export default function App() {
 
         if (window && document && !scriptLoaded) {
             script = document.createElement("script");
-            script.src = "https://get.fluidpayments.io/index.js";
-            // script.src = "https://fluid-git-7297-fluidpayments.vercel.app/index.js";
+            // script.src = "https://get.fluidpayments.io/index.js";
+            script.src = "https://fluid-git-7297-fluidpayments.vercel.app/index.js";
             script.id = "fluid-script";
             script.async = true;
             script.onload = () => {
