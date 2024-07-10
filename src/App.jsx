@@ -7,7 +7,7 @@ export default function App() {
 	const [transaction, setTransaction] = useState('deposit');
     const [loggedIn, setLoggedIn] = useState(false);
     const [bonuses, setBonuses] = useState([]);
-    const [balance, setBalance] = useState(1000);
+    const [selectedBonus, setSelectedBonus] = useState('');
 
     const bonusesData = [
         {
@@ -40,8 +40,7 @@ export default function App() {
 
         if (window && document && !scriptLoaded) {
             script = document.createElement("script");
-            // script.src = "https://get.fluidpayments.io/index.js";
-            script.src = "https://fluid-git-7297-fluidpayments.vercel.app/index.js";
+            script.src = "https://get.fluidpayments.io/index.js";
             script.id = "fluid-script";
             script.async = true;
             script.onload = () => {
@@ -73,15 +72,21 @@ export default function App() {
     }
 
     function addBonuses() {
-        setTimeout(() => {
-            setBonuses(JSON.stringify(bonusesData));
-            setBalance(1200);
-        }, 5000);
+        setBonuses(JSON.stringify(bonusesData));
     }
 
     function removeBonuses() {
         setBonuses(JSON.stringify([]));
     }
+
+    function addSelectedBonus() {
+        setSelectedBonus('DepositBonus');
+    }
+
+    function removeSelectedBonus() {
+        setSelectedBonus('');
+    }
+
 
     return (
         <div className="App">
@@ -125,11 +130,17 @@ export default function App() {
             <button onClick={addBonuses}>
                 Add bonuses
             </button>
+            <button onClick={removeBonuses}>
+                Remove bonuses
+            </button>
         </div>
 
         <div style={{ marginBottom: '1rem' }}>
-            <button onClick={removeBonuses}>
-                Remove bonuses
+            <button onClick={addSelectedBonus}>
+                Add selected bonus
+            </button>
+            <button onClick={removeSelectedBonus}>
+                Remove selected bonus
             </button>
         </div>
 
@@ -140,9 +151,10 @@ export default function App() {
                     id="fluid-widget"
                     transaction={transaction}
                     open={open}
-                    balance={balance}
+                    balance="1000"
                     withdrawable-balance="900"
                     bonuses={bonuses}
+                    selected-bonus={selectedBonus}
                 ></fluid-widget>
             )}
             </div>
