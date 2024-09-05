@@ -2,13 +2,17 @@ import './App.css'
 import FluidWrapper from './FluidWrapper.jsx';
 import { useState } from 'react';
 import bonuses from './bonuses.js';
+import config from './config.js';
+import widget from './widget.js';
+import Callout from './components/Callout.jsx';
 
 function App() {
 	const [open, setOpen] = useState(false);
 	const [transaction, setTransaction] = useState('deposit');
 	const [numberOfBonuses, setNumberOfBonuses] = useState(bonuses.length);
 
-	const [loggedIn, setLoggedIn] = useState(true);
+	const [loggedIn, setLoggedIn] = useState(false);
+	const [scriptLoaded, setScriptLoaded] = useState(false);
 
 	function wallet() {
 		setTransaction(undefined);
@@ -56,6 +60,35 @@ function App() {
 		console.log('Number of bonuses set to', newNumberOfBonuses);
 	}
 
+	async function initializeFluid() {
+		const parameters = {
+			operatorId: config.operatorId,
+			...widget
+		};
+
+		console.log('Initializing Fluid', parameters);
+
+		await fluid.init(parameters);
+
+		console.log('Fluid initialized');
+	}
+
+	function getCallout(loggedIn, scriptLoaded) {
+		let content = '';
+
+		if (!scriptLoaded) {
+			content = '✋ You must load Fluid script first';
+		} else if (!loggedIn) {
+			content = '🔒 You must log in first to use the wallet';
+		}
+
+		if (content) {
+			return <Callout>{content}</Callout>;
+		} else {
+			return null;
+		}
+	}
+
 	return (
 		<>
 			<h1>
@@ -64,8 +97,35 @@ function App() {
 			</h1>
 
 			<div style={{ marginBottom: '1rem' }}>
+				<FluidWrapper
+					open={open}
+					transaction={transaction}
+					bonuses={bonuses.slice(0, numberOfBonuses)}
+					onInfo={onInfo}
+					onCommand={onCommand}
+					onError={onError}
+					loggedIn={loggedIn}
+					scriptLoaded={scriptLoaded}
+				/>
+
+				{ getCallout(loggedIn, scriptLoaded) }
+			</div>
+
+			<div style={{ marginBottom: '1rem' }}>
+				<button onClick={() => setScriptLoaded(!scriptLoaded)} disabled={loggedIn}>
+					{ scriptLoaded ? 'Unload Fluid script' : 'Load Fluid script' }
+				</button>
+			</div>
+
+			<div style={{ marginBottom: '1rem' }}>
 				<button onClick={() => setLoggedIn(!loggedIn)}>
 					{ loggedIn ? 'Log out' : 'Log in' }
+				</button>
+			</div>
+
+			<div style={{ marginBottom: '1rem' }}>
+				<button onClick={initializeFluid}>
+					Initialize Fluid
 				</button>
 			</div>
 
@@ -95,15 +155,6 @@ function App() {
 					Change bonuses
 				</button>
 			</div>
-
-			{loggedIn && <FluidWrapper
-				open={open}
-				transaction={transaction}
-				bonuses={bonuses.slice(0, numberOfBonuses)}
-				onInfo={onInfo}
-				onCommand={onCommand}
-				onError={onError}
-			/>}
 		</>
 	)
 }
