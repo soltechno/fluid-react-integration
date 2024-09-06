@@ -1,3 +1,5 @@
+import bonuses from './bonuses.js';
+
 export default {
 	userId: 'user1',
 	sessionId: '10001-a-valid-session',
@@ -8,5 +10,6 @@ export default {
 		age: 33,
 		previousDeposit: 125,
 		fullName: 'Peter Parker'
-	}
+	},
+	bonuses
 };
