@@ -80,11 +80,6 @@ function App() {
 		setFluidComponentPrepared(true);
 	}
 
-	function injectFluid() {
-		setInitialisationMode('injected');
-		setFluidComponentPrepared(true)
-	}
-
 	function getCallout(loggedIn, scriptLoaded) {
 		let content = '';
 
