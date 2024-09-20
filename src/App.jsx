@@ -80,6 +80,24 @@ function App() {
 		setFluidComponentPrepared(true);
 	}
 
+    async function updateSessionId() {
+		const parameters = {
+			operatorId: config.operatorId,
+			...widget
+		};
+
+        parameters.sessionId = '10001-another-valid-session';
+        // parameters.currencyCode = 'CAD';
+
+		console.log('Initializing Fluid', parameters);
+
+		await fluid.init(parameters);
+
+		console.log('Fluid initialized');
+		setFluidComponentPrepared(true);
+        wallet();
+    }
+
 	function getCallout(loggedIn, scriptLoaded) {
 		let content = '';
 
@@ -168,6 +186,12 @@ function App() {
 			<div style={{ marginBottom: '1rem' }}>
 				<button onClick={initializeFluid}>
 					{ getAddFluidComponentButtonContent() }
+				</button>
+			</div>
+
+			<div style={{ marginBottom: '1rem' }}>
+				<button onClick={updateSessionId}>
+					Update Session ID
 				</button>
 			</div>
 
