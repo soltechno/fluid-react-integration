@@ -1,6 +1,6 @@
 import './App.css'
 import { useState } from 'react';
-import bonuses from './bonuses.js';
+import { bonuses, newBonuses } from './bonuses.js';
 import config from './config.js';
 import widget from './widget.js';
 import Callout from './components/Callout.jsx';
@@ -87,7 +87,23 @@ function App() {
 		};
 
         parameters.sessionId = '10001-another-valid-session';
-        // parameters.currencyCode = 'CAD';
+
+		console.log('Initializing Fluid', parameters);
+
+		await fluid.init(parameters);
+
+		console.log('Fluid initialized');
+		setFluidComponentPrepared(true);
+        wallet();
+    }
+
+    async function updateBonuses() {
+		const parameters = {
+			operatorId: config.operatorId,
+			...widget
+		};
+
+        parameters.bonuses = newBonuses;
 
 		console.log('Initializing Fluid', parameters);
 
@@ -192,6 +208,12 @@ function App() {
 			<div style={{ marginBottom: '1rem' }}>
 				<button onClick={updateSessionId}>
 					Update Session ID
+				</button>
+			</div>
+
+			<div style={{ marginBottom: '1rem' }}>
+				<button onClick={updateBonuses}>
+					Update bonuses with selected bonus
 				</button>
 			</div>
 
