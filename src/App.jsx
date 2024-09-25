@@ -1,6 +1,7 @@
 import './App.css'
 import { useState } from 'react';
-import { bonuses, newBonuses } from './bonuses.js';
+import bonuses from './bonuses.js';
+import newBonuses from './newBonuses.js';
 import config from './config.js';
 import widget from './widget.js';
 import Callout from './components/Callout.jsx';

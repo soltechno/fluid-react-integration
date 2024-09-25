@@ -1,4 +1,4 @@
-const bonuses = [
+const newBonuses = [
 	{
 		"code": "WelcomeBonus",
 		"title": "Welcome Bonus",
@@ -27,7 +27,7 @@ const bonuses = [
 				{ "providerType": "WEBREDIRECT", "service": "BLIXTPAY" }
 			]
 		},
-        "selected": false
+        "selected": true
 	},
 	{
 		"code": "LoginBonus",
@@ -47,4 +47,4 @@ const bonuses = [
 	}
 ];
 
-export default bonuses;
+export default newBonuses;
