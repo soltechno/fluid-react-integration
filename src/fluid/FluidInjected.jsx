@@ -23,7 +23,6 @@ function FluidInjected({ onInfo, onCommand, onError, open, transaction }) {
 		balance="1000"
 		withdrawable-balance="900"
 		mode="wave"
-		selected-bonus=""
 		bonuses={JSON.stringify(bonuses || [])}
 		user-data={JSON.stringify(widget.userData)}
 		deposit-limit=""
