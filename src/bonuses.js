@@ -11,7 +11,8 @@ const bonuses = [
 			"applyTo": [
 				{ "providerType": "CREDITCARD" }
 			]
-		}
+		},
+        "selected": false
 	},
 	{
 		"code": "DepositBonus",
@@ -25,7 +26,8 @@ const bonuses = [
 				{ "providerType": "CREDITCARD" },
 				{ "providerType": "WEBREDIRECT", "service": "BLIXTPAY" }
 			]
-		}
+		},
+        "selected": true
 	},
 	{
 		"code": "LoginBonus",
@@ -40,7 +42,8 @@ const bonuses = [
 				{ "providerType": "JETON" },
 				{ "providerType": "SKRILLQCO", "service": "NETELLER" }
 			]
-		}
+		},
+        "selected": false
 	}
 ];
 
