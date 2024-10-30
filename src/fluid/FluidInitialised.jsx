@@ -14,7 +14,6 @@ function FluidInitialised({ onInfo, onCommand, onError, open, transaction }) {
 			open={open}
 			balance="1000"
 			withdrawable-balance="900"
-			selected-bonus=""
 			deposit-limit=""
 			success-cta-link=""
 		/>
