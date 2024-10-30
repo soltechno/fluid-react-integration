@@ -154,12 +154,6 @@ function App() {
 			</div>
 
 			<div style={{ marginBottom: '1rem' }}>
-				<button onClick={() => { setLoggedIn(!loggedIn); setInitialisationMode('injected') }}>
-					{ loggedIn ? 'Log out' : 'Log in' }
-				</button>
-			</div>
-
-			<div style={{ marginBottom: '1rem' }}>
 				<button onClick={initializeFluid}>
 					Initialize Fluid
 				</button>
@@ -168,6 +162,12 @@ function App() {
 			<div style={{ marginBottom: '1rem' }}>
 				<button onClick={initializeFluid}>
 					{ getAddFluidComponentButtonContent() }
+				</button>
+			</div>
+
+            <div style={{ marginBottom: '1rem' }}>
+				<button onClick={() => { setLoggedIn(!loggedIn); setInitialisationMode('injected') }}>
+					{ loggedIn ? 'Log out' : 'Log in' }
 				</button>
 			</div>
 
