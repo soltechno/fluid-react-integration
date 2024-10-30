@@ -1,8 +1,8 @@
 import bonuses from './bonuses.js';
 
 export default {
-	userId: 'user1',
-	sessionId: '10001-a-valid-session',
+	userId: '10000',
+	sessionId: '10000-a-valid-session',
 	locale: 'en-EN',
 	countryCode: 'IRL',
 	currencyCode: 'EUR',
