@@ -7,6 +7,8 @@ import Callout from './components/Callout.jsx';
 import FluidScript from './components/FluidScript.jsx';
 import FluidInitialised from './fluid/FluidInitialised.jsx';
 import FluidInjected from './fluid/FluidInjected.jsx';
+import FluidQuickDepositInitialised from './fluid/FluidQuickDepositInitialised.jsx';
+import FluidQuickDepositInjected from './FluidQuickDepositInjected.jsx';
 
 function App() {
 	const [open, setOpen] = useState(false);
@@ -14,6 +16,7 @@ function App() {
 	const [numberOfBonuses, setNumberOfBonuses] = useState(bonuses.length);
 	const [initialisationMode, setInitialisationMode] = useState('injected');
 	const [fluidComponentPrepared, setFluidComponentPrepared] = useState(false);
+	const [fluidQuickDepositMounted, setFluidQuickDepositMounted] = useState(false);
 
 	const [loggedIn, setLoggedIn] = useState(false);
 	const [scriptLoaded, setScriptLoaded] = useState(false);
@@ -118,6 +121,24 @@ function App() {
 		return null;
 	}
 
+	function getFluidQuickDepositComponent() {
+		if (initialisationMode === 'injected') {
+			return <FluidQuickDepositInjected
+				onInfo={onInfo}
+				onCommand={onCommand}
+				onError={onError}
+			/>
+		} else if (initialisationMode === 'programmatic') {
+			return <FluidQuickDepositInitialised
+				onInfo={onInfo}
+				onCommand={onCommand}
+				onError={onError}
+			/>
+		}
+
+		return null;
+	}
+
 	function getFluidComponentPrepared() {
 		return scriptLoaded && loggedIn && fluidComponentPrepared;
 	}
@@ -139,63 +160,83 @@ function App() {
 				Fluid
 			</h1>
 
-			<div style={{ marginBottom: '1rem' }}>
-				{ scriptLoaded && <FluidScript /> }
+			<div className="container">
+				<div className="sidebar">
+					<div style={{ marginBottom: '1rem' }}>
+						<button onClick={() => setScriptLoaded(!scriptLoaded)} disabled={loggedIn}>
+							{ scriptLoaded ? 'Unload Fluid script' : 'Load Fluid script' }
+						</button>
+					</div>
 
-				{ getFluidComponentPrepared() && getFluidComponent() }
+					<div style={{ marginBottom: '1rem' }}>
+						<button onClick={initializeFluid}>
+							Initialize Fluid
+						</button>
+					</div>
 
-				{ getCallout(loggedIn, scriptLoaded) }
-			</div>
+					<div style={{ marginBottom: '1rem' }}>
+						<button onClick={initializeFluid}>
+							{ getAddFluidComponentButtonContent() }
+						</button>
+					</div>
 
-			<div style={{ marginBottom: '1rem' }}>
-				<button onClick={() => setScriptLoaded(!scriptLoaded)} disabled={loggedIn}>
-					{ scriptLoaded ? 'Unload Fluid script' : 'Load Fluid script' }
-				</button>
-			</div>
+					<div style={{ marginBottom: '1rem' }}>
+						<button onClick={() => { setLoggedIn(!loggedIn); setInitialisationMode('injected') }}>
+							{ loggedIn ? 'Log out' : 'Log in' }
+						</button>
+					</div>
 
-			<div style={{ marginBottom: '1rem' }}>
-				<button onClick={initializeFluid}>
-					Initialize Fluid
-				</button>
-			</div>
+					<div style={{ marginBottom: '1rem' }}>
+						<button onClick={wallet} disabled={ !getFluidComponentPrepared() }>
+							Wallet
+						</button>
+					</div>
+					<div style={{ marginBottom: '1rem' }}>
+						<button onClick={deposit} disabled={ !getFluidComponentPrepared() }>
+							Deposit
+						</button>
+					</div>
+					<div style={{ marginBottom: '1rem' }}>
+						<button onClick={withdraw} disabled={ !getFluidComponentPrepared() }>
+							Withdrawal
+						</button>
+					</div>
+					<div style={{ marginBottom: '1rem' }}>
+						<button onClick={quickDeposit} disabled={ !getFluidComponentPrepared() }>
+							Quick Deposit
+						</button>
+					</div>
 
-			<div style={{ marginBottom: '1rem' }}>
-				<button onClick={initializeFluid}>
-					{ getAddFluidComponentButtonContent() }
-				</button>
-			</div>
+					<div style={{ marginBottom: '1rem' }}>
+						<button onClick={changeNumberOfBonuses}>
+							Change bonuses
+						</button>
+					</div>
 
-            <div style={{ marginBottom: '1rem' }}>
-				<button onClick={() => { setLoggedIn(!loggedIn); setInitialisationMode('injected') }}>
-					{ loggedIn ? 'Log out' : 'Log in' }
-				</button>
-			</div>
+					<hr/>
 
-			<div style={{ marginBottom: '1rem' }}>
-				<button onClick={wallet} disabled={ !getFluidComponentPrepared() }>
-					Wallet
-				</button>
-			</div>
-			<div style={{ marginBottom: '1rem' }}>
-				<button onClick={deposit} disabled={ !getFluidComponentPrepared() }>
-					Deposit
-				</button>
-			</div>
-			<div style={{ marginBottom: '1rem' }}>
-				<button onClick={withdraw} disabled={ !getFluidComponentPrepared() }>
-					Withdrawal
-				</button>
-			</div>
-			<div style={{ marginBottom: '1rem' }}>
-				<button onClick={quickDeposit} disabled={ !getFluidComponentPrepared() }>
-					Quick Deposit
-				</button>
-			</div>
+					<div style={{ marginBottom: '1rem' }}>
+						<button onClick={ () => setFluidQuickDepositMounted(!fluidQuickDepositMounted) }>
+							{ fluidQuickDepositMounted ? 'Unmount Fluid Quick Deposit' : 'Mount Fluid Quick Deposit' }
+						</button>
+					</div>
+				</div>
 
-			<div style={{ marginBottom: '1rem' }}>
-				<button onClick={changeNumberOfBonuses}>
-					Change bonuses
-				</button>
+				<main className="main-content">
+					<div className="" style={{ marginBottom: '1rem' }}>
+						{ scriptLoaded && <FluidScript /> }
+
+						{ getFluidComponentPrepared() && getFluidComponent() }
+
+						{ getCallout(loggedIn, scriptLoaded) }
+					</div>
+
+					<div className="content-centered">
+						<div>
+							{fluidQuickDepositMounted && getFluidQuickDepositComponent()}
+						</div>
+					</div>
+				</main>
 			</div>
 		</>
 	)
